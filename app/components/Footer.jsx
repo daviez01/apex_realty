@@ -1,13 +1,11 @@
 import React from 'react'
 
-import { Box } from '@chakra-ui/react';
-
 const Footer = () => {
   return (
     <div>
-      <Box textAlign="center" borderTop="1px" borderColor="gray.300" color="gray.600" p="5">  
+      <div className='text-center border-t-2 border-gray-300 p-5 text-gray-700'>  
         &copy; 2023 Apex Realty. All Rights Reserved. 
-      </Box>
+      </div>
     </div>
   )
 }

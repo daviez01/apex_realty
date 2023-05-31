@@ -2,39 +2,63 @@
 
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { Box, Text, Flex, Icon } from '@chakra-ui/react';
 import { BsFilter } from 'react-icons/bs';
-
+import { use } from 'react';
+import { baseUrl, options } from '../utils/fetchApi';
 import SearchFilters from '../components/SearchFilters';
+import Property from '../components/Property';
 
-const SearchPage = () => {
+async function fetchProperties() {
+    const params = useSearchParams();
+
+    const purpose = params.get('purpose') || 'for-sale';
+    const rentFrequency = params.get('rentFrequency') || 'yearly';
+    const minPrice = params.get('minPrice') || '0';
+    const maxPrice = params.get('maxPrice') || '1000000';
+    const roomsMin = params.get('roomsMin') || '0';
+    const bathsMin = params.get('bathsMin') || 0;
+    const sort = params.get('sort') || 'price-desc';
+    const areaMax = params.get('areaMax') || '35000';
+    const locationExternalIDs = params.get('locationExternalIDs') || '5002';
+    const categoryExternalID = params.get('categoryExternalID') || '4';
+
+    const response = await fetch(`${baseUrl}/properties/list?locationExternalIDs=${locationExternalIDs}&purpose=${purpose}&categoryExternalID=${categoryExternalID}&bathsMin=${bathsMin}&rentFrequency=${rentFrequency}&priceMin=${minPrice}&priceMax=${maxPrice}&roomsMin=${roomsMin}&sort=${sort}&areaMax=${areaMax}`, options);
+
+    const data = await response.json();
+
+    console.log(data.hits);
+
+    return data.hits;
+  } 
+
+
+const SearchPage = ({  }) => {
+    const properties = use(fetchProperties());
+
     const [searchFilters, setSearchFilters] = useState(false);
-    const router = useRouter();
+    const params = useSearchParams();
+    console.log(params.get('purpose'));
 
-    useEffect(() => {
-        // Perform any client-side logic here that depends on the router
-    
-        // Example: Log the current route
-        console.log(router.query);
-    
-        // Make sure to pass any dependencies to the dependency array if needed
-      }, [router]);
+
   return (
-    <Box>
-        <Flex cursor="pointer" bg="gray.100" borderBottom="1px" borderColor="gray.200" fontWeight="black" fontSize="lg" justifyContent="center" alignItems="center" m="10"
-        onClick={() => setSearchFilters((prevFilters) => !prevFilters)} >
-            <Text>Search Properties By Filters</Text>
-            <Icon paddingLeft="2" w="7" as={BsFilter} />
-        </Flex>
+    <div className=''>
+        <div className='flex cursor-pointer border-gray-200 border-b-2 font-black text-lg justify-center items-center m-10' justifyContent="center" alignItems="center" m="10">
+            <p>Search Properties By Filters</p>
+            <span className='pl-2 w-7'><BsFilter /> </span>
+        </div>
         {searchFilters && <SearchFilters />}
-        <Text fontSize="2xl" p="4" fontWeight="bold" >
-            Properties {router.query?.purpose && `for ${router.query.purpose}`}
-        </Text>
+        <p className='text-2xl p-4 font-bold'>
+            Properties {params.get('purpose')}
+        </p>
+        <div className='flex flex-wrap'>
+            {properties.map((property) => <Property key={property.id} property={property} />)}
+        </div>
+        {properties.length === 0 && (<p className='text-2xl p-4 font-bold text-center my-5'> No Properties Found </p>)}
         
-    </Box>
+    </div>
   )
 }
 
-export default SearchPage
+export default SearchPage;

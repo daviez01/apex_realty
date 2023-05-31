@@ -1,9 +1,8 @@
-"use client"
 import './globals.css'
 import React from 'react';
 
-import { Providers } from './providers';
-import { Box } from '@chakra-ui/react';
+// import { Providers } from './providers';
+// import { Box } from '@chakra-ui/react';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -18,19 +17,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Providers>
-          <Box  maxWidth="full" m="auto">
-            <header>
-              <Navbar />
-            </header>
-            <main>
-              {children}
-            </main>
-            <footer>
-              <Footer />
-            </footer>
-          </Box> 
-        </Providers>
+        <header>
+          <Navbar />
+        </header>
+        <main>
+           {children}
+        </main>
+        <footer>
+          <Footer />
+        </footer>
       </body>
     </html>
   )
