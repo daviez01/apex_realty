@@ -5,10 +5,16 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { BsFilter } from 'react-icons/bs';
-// import { use } from 'react';
 import { baseUrl, options } from '../utils/fetchApi';
 import SearchFilters from '../components/SearchFilters';
+import HashLoader from "react-spinners/HashLoader";
 import Property from '../components/Property';
+
+const override= {
+  margin: "auto",
+  borderColor: "red",
+  alignSelf: "center",
+};
 
 const fetchProperty = async (Params) => {
 
@@ -26,10 +32,9 @@ const fetchProperty = async (Params) => {
 
 
 const SearchPage = () => {
-    // const properties = use(fetchProperty());
-
     const [properties, setProperties] = useState([]);
     const [searchFilters, setSearchFilters] = useState(false);
+    const [loading, setLoading] = useState(true);
     const params = useSearchParams();
 
     useEffect(() => {
@@ -48,10 +53,13 @@ const SearchPage = () => {
       
      fetchProperty(Params).then((data) => {
         setProperties(data.hits);
+        setLoading(false);
       })
     }, [params]);
 
-   
+    if (loading) {
+      return <HashLoader cssOverride={override} size={100} color='#4c474e'/>;
+    }
    
     console.log(params.get('purpose'));
 

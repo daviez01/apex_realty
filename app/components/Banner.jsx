@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Banner = ({ purpose, title1, title2, desc1, desc2, linkName, buttonText, imageurl }) => {
     return(
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center mt-2">
         <Image src={imageurl} width={500} height={300} alt="banner" />
         <div className="p-5">
           <h3 className="text-sm font-medium text-gray-500" > {purpose} </h3>

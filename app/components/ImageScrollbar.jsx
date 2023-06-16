@@ -1,4 +1,4 @@
-
+'use client'
 import React from 'react';
 import Image from 'next/image';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
@@ -11,9 +11,6 @@ const getItems = () =>
     .map((_, ind) => ({ id: `element-${ind}` }));
 
 function ImageScrollbar({ images}) {
-  // const [items, setItems] = React.useState(getItems);
-  // const [selected, setSelected] = React.useState([]);
-  // const [position, setPosition] = React.useState(0);
 
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}  style={{ overflow: 'hidden', width: '500px', maxHeight: '500px' }}>
@@ -70,7 +67,7 @@ function Card({ image }) {
       }}
       tabIndex={0}
     >
-        <Image placeholder="blur" blurDataURL={image.url} src={image.url} width={1000} height={500} sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" />
+        <Image loading='lazy' placeholder="blur" blurDataURL={image.url} src={image.url} width={1000} height={500} sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" />
     </div>
   );
 }

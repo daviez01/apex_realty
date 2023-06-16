@@ -33,12 +33,7 @@ const SearchFilters = () => {
         router.push(pathname + '?' + createQueryString(item.name, item.value));
       }
     })
-
-    // router.push(pathname + '?' + createQueryString(item.name, item.value));
   }
-
-
-
 
   return (
     <div className='flex flex-wrap bg-gray-100 justify-center items-center p-4'>

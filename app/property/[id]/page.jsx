@@ -1,8 +1,4 @@
-'use client'
-
 import React from 'react'
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { FaBed, FaBath } from 'react-icons/fa';
 import { BsGridFill } from 'react-icons/bs';
 import { GoVerified } from 'react-icons/go';
@@ -20,14 +16,9 @@ const fetchProperty = async (id) => {
 }
 
 
-const PropertyPage = () => {
-  const [property, setProperty] = useState([]);
-  const { id } = useParams();
-  useEffect(() => {
-    fetchProperty(id).then((data) => {
-      setProperty(data);
-    })
-  }, []);
+const PropertyPage = async ({params : { id }}) => {
+
+  const property = await fetchProperty(id);
 
 
   return (
@@ -39,7 +30,7 @@ const PropertyPage = () => {
         <p className='font-bold text-lg' fontWeight='bold' fontSize='lg'>
           AED {property.price} {property.rentFrequency && `/${property.rentFrequency}`}
         </p>
-        <div>
+        <div className='m-2'>
         <Image className='w-10 h-10 rounded-full' src={property.agency?.logo?.url} width={50} height={50}/>
         </div>
       </div>
@@ -68,7 +59,7 @@ const PropertyPage = () => {
       )}
     </div>
     <div>
-      {property.amenities.lenght && <p className='text-2xl font-black mt-5' fontSize='2xl' fontWeight='black' marginTop='5'>Facilites:</p>}
+      {property.amenities ? <p className='text-2xl font-black mt-5' fontSize='2xl' fontWeight='black' marginTop='5'>Facilites:</p> : 'unavailable'}
         <div className='flex flex-wrap' flexWrap='wrap'>
           {property.amenities?.map((item) => (
               item?.amenities?.map((amenity) => (
