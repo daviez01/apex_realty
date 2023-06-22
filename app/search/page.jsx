@@ -27,8 +27,8 @@ const fetchProperty = async (Params) => {
     console.log(data.hits);
 
 
-    return data;
-  } 
+  return data;
+} 
 
 
 const SearchPage = () => {
